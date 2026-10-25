@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portfolio de Javier Sánchez González, técnico de sistemas y redes en formación (ASIR): Debian, Windows Server, Active Directory y Cisco.">
+<title>Javier Sánchez González</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: página tipo panel de rack. Hero asimétrico con un "switch" de puertos a la derecha,
+   laboratorio de red interactivo en el centro, el resto en columnas editoriales. */
+:root {
+  --bg: #E8EDF0;
+  --surface: #F6F8F9;
+  --ink: #0E1A23;
+  --muted: #4E5E6A;
+  --line: #C3CFD6;
+  --cable: #0A78B5;
+  --orange: #D9500A;
+  --led: #17A058;
+  --led-off: #B7C4CC;
+  --f-display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B1218; --surface: #121B23; --ink: #E7EEF3; --muted: #92A3AF; --line: #25323D;
+    --cable: #44B4EC; --orange: #FF8B3F; --led: #3DDC84; --led-off: #2B3944;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B1218; --surface: #121B23; --ink: #E7EEF3; --muted: #92A3AF; --line: #25323D;
+  --cable: #44B4EC; --orange: #FF8B3F; --led: #3DDC84; --led-off: #2B3944;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.6;
+  padding-block: 0 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1120px; margin-inline: auto; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--cable); outline-offset: 3px; }
+
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--led); box-shadow: 0 0 0 3px color-mix(in srgb, var(--led) 25%, transparent);
+}
+h1, h2, h3 { font-family: var(--f-display); font-stretch: 112%; margin: 0; text-wrap: balance; line-height: 1; }
+h2 { font-size: clamp(30px, 5vw, 48px); font-weight: 800; letter-spacing: -.01em; }
+h3 { font-size: 21px; font-weight: 700; font-stretch: 100%; line-height: 1.2; }
+p { margin: 0; }
+
+/* Barra superior */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px; flex-wrap: wrap; }
+.mark { font-family: var(--f-display); font-stretch: 125%; font-weight: 900; font-size: 20px; letter-spacing: .02em; text-decoration: none; }
+.mark b { color: var(--orange); }
+.nav { display: flex; gap: 6px 22px; flex-wrap: wrap; font-family: var(--f-mono); font-size: 13.5px; }
+.nav a { text-decoration: none; color: var(--muted); padding-block: 4px; border-bottom: 2px solid transparent; }
+.nav a:hover { color: var(--ink); border-color: var(--orange); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 40px 56px; align-items: end; padding-block: 36px 72px; }
+.hero h1 { font-size: clamp(44px, 7.6vw, 100px); font-weight: 900; font-stretch: 125%; letter-spacing: -.025em; margin-top: 22px; line-height: .92; }
+.hero h1 span { display: block; }
+.hero h1 .cable { position: relative; display: inline-block; }
+.hero h1 .cable::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -.06em; height: .09em; min-height: 5px;
+  background: var(--orange); border-radius: 99px;
+}
+.lead { font-size: clamp(18px, 2.1vw, 22px); max-width: 34em; margin-top: 30px; color: var(--ink); line-height: 1.5; }
+.lead b { font-weight: 600; }
+.actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 32px; }
+.btn {
+  font-family: var(--f-body); font-weight: 600; font-size: 16px; text-decoration: none;
+  padding: 14px 22px; border: 2px solid var(--ink); border-radius: 4px;
+  background: var(--ink); color: var(--bg);
+  box-shadow: 0 0 0 var(--orange);
+  transition: transform .12s ease, box-shadow .12s ease;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--orange); }
+.btn.ghost { background: transparent; color: var(--ink); }
+
+.panel { background: var(--surface); border: 2px solid var(--ink); border-radius: 6px; padding: 18px 18px 20px; position: relative; }
+.panel::before, .panel::after {
+  content: ""; position: absolute; top: 12px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--line); box-shadow: inset 0 0 0 2px var(--muted);
+}
+.panel::before { left: -16px; } .panel::after { right: -16px; }
+.panel-head { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.ports { display: grid; grid-template-columns: repeat(12, 1fr); gap: 7px; margin-block: 14px 18px; }
+.port { aspect-ratio: 1 / .82; border: 2px solid var(--ink); border-radius: 2px; position: relative; background: var(--bg); }
+.port::after { content: ""; position: absolute; left: 50%; top: -9px; width: 7px; height: 7px; border-radius: 50%; transform: translateX(-50%); background: var(--led-off); }
+.port.on::after { background: var(--led); box-shadow: 0 0 7px var(--led); }
+.port.warn::after { background: var(--orange); box-shadow: 0 0 7px var(--orange); }
+.port.blink::after { animation: blink 1.6s steps(2, jump-none) infinite; }
+@keyframes blink { 50% { opacity: .2; } }
+.facts { margin: 0; display: grid; gap: 0; }
+.facts div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding-block: 10px; border-top: 1px solid var(--line); font-size: 15px; }
+.facts dt { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.facts dd { margin: 0; font-weight: 500; }
+
+/* Secciones */
+section { padding-block: 72px; border-top: 2px solid var(--ink); }
+.sec-head { display: grid; gap: 14px; margin-bottom: 40px; max-width: 760px; }
+.sec-head p { color: var(--muted); font-size: 18px; }
+
+.about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 32px 64px; }
+.about .big { font-family: var(--f-display); font-stretch: 105%; font-weight: 700; font-size: clamp(24px, 3.4vw, 36px); line-height: 1.18; text-wrap: balance; }
+.about .big em { font-style: normal; color: var(--cable); }
+.about .body { display: grid; gap: 18px; max-width: 38em; }
+
+/* Laboratorio */
+.lab { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.lab-map { background: var(--surface); border: 2px solid var(--ink); border-radius: 6px; padding: 10px; }
+.lab-map svg { width: 100%; height: auto; display: block; }
+.lab-map .wire { stroke: var(--muted); stroke-width: 2.5; fill: none; }
+.lab-map .wire.sssd { stroke: var(--orange); stroke-width: 3.5; stroke-dasharray: 2 7; stroke-linecap: round; }
+.lab-map .zone { stroke: var(--cable); stroke-width: 2; stroke-dasharray: 8 6; fill: none; }
+.lab-map .zone-label { font-family: var(--f-mono); font-size: 15px; fill: var(--cable); }
+.lab-map .tag { font-family: var(--f-mono); font-size: 14px; font-weight: 500; fill: var(--orange); text-anchor: middle; }
+.node { cursor: pointer; }
+.node rect.box { fill: var(--bg); stroke: var(--ink); stroke-width: 2; transition: fill .12s, stroke .12s; }
+.node:hover rect.box { fill: color-mix(in srgb, var(--cable) 14%, var(--bg)); }
+.node.on rect.box { stroke: var(--orange); stroke-width: 3.5; fill: color-mix(in srgb, var(--orange) 12%, var(--bg)); }
+.node:focus-visible { outline: none; }
+.node:focus-visible rect.box { stroke: var(--cable); stroke-width: 4; }
+.node text { fill: var(--ink); font-family: var(--f-body); pointer-events: none; }
+.node .t1 { font-size: 19px; font-weight: 600; }
+.node .t2 { font-size: 14px; fill: var(--muted); }
+.node circle { fill: var(--led); }
+.node .hit { fill: transparent; }
+.detail { background: var(--ink); color: var(--bg); border-radius: 6px; padding: 26px; display: grid; gap: 16px; min-height: 260px; align-content: start; }
+.detail .eyebrow { color: color-mix(in srgb, var(--bg) 65%, transparent); }
+.detail h3 { font-stretch: 112%; font-size: 28px; font-weight: 800; }
+.detail p { font-size: 17px; }
+.detail .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.detail .chips span { font-family: var(--f-mono); font-size: 13px; padding: 4px 10px; border: 1px solid color-mix(in srgb, var(--bg) 40%, transparent); border-radius: 99px; }
+.hint { font-family: var(--f-mono); font-size: 13px; color: var(--muted); margin-top: 14px; }
+
+/* Stack */
+.stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.stack > div { padding: 22px 22px 26px 0; border-bottom: 1px solid var(--line); }
+.stack h3 { font-size: 15px; font-family: var(--f-mono); font-stretch: 100%; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.stack ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.stack li { font-family: var(--f-display); font-stretch: 108%; font-weight: 700; font-size: 24px; line-height: 1.15; }
+.stack li small { display: block; font-family: var(--f-body); font-weight: 400; font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+/* Trayectoria */
+.path { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; position: relative; }
+.path::before { content: ""; position: absolute; left: 0; right: 0; top: 11px; height: 4px; background: var(--cable); border-radius: 4px; }
+.step { padding: 44px 28px 0 0; position: relative; display: grid; gap: 8px; align-content: start; }
+.step::before { content: ""; position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--bg); border: 4px solid var(--cable); }
+.step.now::before { border-color: var(--orange); background: var(--orange); }
+.step .when { font-family: var(--f-mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.step p { color: var(--muted); font-size: 16px; }
+
+.jobs { border-top: 1px solid var(--line); }
+.job { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 12px 40px; padding-block: 30px; border-bottom: 1px solid var(--line); }
+.job .when { font-family: var(--f-mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 6px; }
+.job h3 { font-size: 26px; font-stretch: 112%; font-weight: 800; }
+.job .org { font-family: var(--f-mono); font-size: 14px; color: var(--cable); margin-top: 8px; }
+.job ul { margin: 16px 0 0; padding-left: 20px; display: grid; gap: 6px; max-width: 44em; }
+.extras { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; margin-top: 56px; }
+.extras > div { border-top: 6px solid var(--ink); padding-top: 18px; display: grid; gap: 14px; align-content: start; }
+.extras > div:nth-child(2) { border-color: var(--cable); }
+.extras > div:nth-child(3) { border-color: var(--orange); }
+.extras ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.extras b { font-weight: 600; display: block; }
+.extras small { display: block; color: var(--muted); font-size: 14px; line-height: 1.45; }
+
+/* Busco */
+.seek { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px 64px; }
+.roles { list-style: none; padding: 0; margin: 0; }
+.roles li { font-family: var(--f-display); font-stretch: 112%; font-weight: 800; font-size: clamp(24px, 3.6vw, 38px); line-height: 1.1; padding-block: 16px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+.roles li:first-child { border-top: 1px solid var(--line); }
+.roles li span { font-family: var(--f-mono); font-size: 12px; font-weight: 400; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+
+/* Contacto */
+.contact { background: var(--ink); color: var(--bg); border-radius: 8px; padding: clamp(28px, 6vw, 72px); display: grid; gap: 28px; margin-top: 8px; }
+.contact h2 { font-size: clamp(38px, 8vw, 96px); font-stretch: 125%; font-weight: 900; letter-spacing: -.02em; line-height: .95; }
+.contact p { max-width: 34em; font-size: 19px; color: color-mix(in srgb, var(--bg) 82%, transparent); }
+.contact .btn { background: var(--orange); border-color: var(--orange); color: #0B1218; box-shadow: 0 0 0 var(--bg); }
+.contact .btn:hover { box-shadow: 5px 5px 0 var(--bg); }
+.contact .url { font-family: var(--f-mono); font-size: 14px; color: color-mix(in srgb, var(--bg) 70%, transparent); overflow-wrap: anywhere; }
+footer { padding-top: 28px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
+
+@media (max-width: 860px) {
+  .hero, .about, .lab, .seek { grid-template-columns: minmax(0, 1fr); }
+  .path { grid-template-columns: minmax(0, 1fr); gap: 34px; }
+  .path::before { left: 11px; right: auto; top: 0; bottom: 0; width: 4px; height: auto; }
+  .step { padding: 0 0 0 52px; }
+  .extras { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .job { grid-template-columns: minmax(0, 1fr); }
+  .job .when { padding-top: 0; }
+  section { padding-block: 56px; }
+  .panel::before { left: -12px; } .panel::after { right: -12px; }
+}
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+  .roles li { flex-direction: column; gap: 4px; }
+  .facts div { grid-template-columns: 1fr; gap: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .port.blink::after { animation: none; }
+  .btn { transition: none; }
+}</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="mark" href="#inicio">JSG<b>.</b></a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#laboratorio">Laboratorio</a>
+      <a href="#stack">Herramientas</a>
+      <a href="#trayectoria">Trayectoria</a>
+      <a href="#experiencia">Experiencia</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero" id="inicio">
+      <div>
+        <div class="eyebrow">Sistemas y redes · Sevilla</div>
+        <h1><span>Javier</span><span class="cable">Sánchez</span><span>González</span></h1>
+        <p class="lead">Estudio <b>Administración de Sistemas Informáticos en Red</b> y trabajo con Debian, Windows Server, Active Directory y redes Cisco. Busco mi primer puesto como administrador de sistemas o redes.</p>
+        <div class="actions">
+          <a class="btn" href="https://www.linkedin.com/in/javier-s%C3%A1nchez-gonz%C3%A1lez-114a35443/" target="_blank" rel="noopener">Escríbeme por LinkedIn <span aria-hidden="true">→</span></a>
+          <a class="btn ghost" href="#laboratorio">Ver mi laboratorio</a>
+        </div>
+      </div>
+
+      <aside class="panel" aria-label="Estado actual">
+        <div class="panel-head"><span>Estado</span><span>24 puertos</span></div>
+        <div class="ports" id="ports" aria-hidden="true"></div>
+        <dl class="facts">
+          <div><dt>Situación</dt><dd>Buscando empleo</dd></div>
+          <div><dt>Zona</dt><dd>Alcalá de Guadaíra, Sevilla</dd></div>
+          <div><dt>Modalidad</dt><dd>Presencial, híbrido o remoto</dd></div>
+          <div><dt>Formación</dt><dd>ASIR, 2.º curso</dd></div>
+        </dl>
+      </aside>
+    </div>
+
+    <section id="sobre-mi">
+      <div class="about">
+        <div>
+          <div class="eyebrow" style="margin-bottom:18px">Sobre mí</div>
+          <p class="big">Me gusta que las cosas <em>funcionen</em> y saber explicar por qué.</p>
+        </div>
+        <div class="body">
+          <p>Estudio 2.º de ASIR en el IES Ciudad Jardín. Antes hice el grado medio de Microinformática y Redes, así que llevo varios años montando, rompiendo y arreglando equipos y redes.</p>
+          <p>Trabajo con Debian y Windows Server, con Active Directory integrado en Linux mediante SSSD, con redes Cisco en Packet Tracer y con máquinas virtuales en VirtualBox y Proxmox. También escribo scripts en Bash y Python y hago consultas en MySQL.</p>
+          <p>He hecho prácticas en redes y en sistemas, y tengo las certificaciones de Cisco Networking Academy en Linux y CCNA. Conozco la parte técnica y también la de hablar con el usuario que tiene el problema.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="laboratorio">
+      <div class="sec-head">
+        <div class="eyebrow">Laboratorio</div>
+        <h2>Así es mi entorno de pruebas</h2>
+        <p>Un dominio de Active Directory, un servidor Debian unido a él con SSSD y una red Cisco por delante, todo virtualizado. Pulsa en cada equipo para ver qué hago con él.</p>
+      </div>
+      <div class="lab">
+        <div>
+          <div class="lab-map">
+            <svg id="map" viewBox="0 0 640 460" role="group" aria-label="Diagrama de red de mi laboratorio"></svg>
+          </div>
+          <p class="hint">Se puede navegar con el teclado: Tab y Enter.</p>
+        </div>
+        <div class="detail" id="detail" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="sec-head">
+        <div class="eyebrow">Herramientas</div>
+        <h2>Con qué trabajo</h2>
+      </div>
+      <div class="stack">
+        <div><h3>Sistemas</h3><ul><li>Debian<small>Administración desde terminal</small></li><li>Windows Server<small>Roles y servicios</small></li></ul></div>
+        <div><h3>Identidad</h3><ul><li>Active Directory<small>Dominio, usuarios y equipos</small></li><li>SSSD<small>Linux dentro del dominio</small></li></ul></div>
+        <div><h3>Redes</h3><ul><li>Cisco IOS<small>Routers, switches y VLAN</small></li><li>Packet Tracer<small>Diseño y simulación</small></li></ul></div>
+        <div><h3>Hardware y soporte</h3><ul><li>Montaje y reparación<small>Equipos y componentes</small></li><li>Mantenimiento<small>Preventivo y correctivo</small></li></ul></div>
+        <div><h3>Virtualización</h3><ul><li>Proxmox<small>Servidor de virtualización</small></li><li>VirtualBox<small>Laboratorios locales</small></li></ul></div>
+        <div><h3>Scripting y datos</h3><ul><li>Bash</li><li>Python</li><li>MySQL</li></ul></div>
+      </div>
+    </section>
+
+    <section id="trayectoria">
+      <div class="sec-head">
+        <div class="eyebrow">Trayectoria</div>
+        <h2>De dónde vengo</h2>
+      </div>
+      <div class="path">
+        <div class="step">
+          <span class="when">2023 – 2025</span>
+          <h3>Microinformática y Redes</h3>
+          <p>Grado medio en el C.D.P. Nuestra Señora de las Mercedes, con nota media de 8,7. La base: hardware, sistemas operativos, redes locales y soporte.</p>
+        </div>
+        <div class="step">
+          <span class="when">2025 – actualidad</span>
+          <h3>ASIR en el IES Ciudad Jardín</h3>
+          <p>Grado superior, ahora en 2.º curso. Administración de servidores, directorio activo, redes Cisco, virtualización y scripting.</p>
+        </div>
+        <div class="step now">
+          <span class="when">Ahora</span>
+          <h3>Buscando mi primer puesto</h3>
+          <p>Quiero incorporarme a un equipo de sistemas o redes y seguir aprendiendo en producción.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <section id="experiencia">
+      <div class="sec-head">
+        <div class="eyebrow">Experiencia</div>
+        <h2>Prácticas en empresa</h2>
+        <p>Dos periodos de prácticas en entornos de trabajo reales, uno en redes y otro en sistemas.</p>
+      </div>
+      <div class="jobs">
+        <article class="job">
+          <div class="when">Ene. 2026 – Feb. 2026</div>
+          <div>
+            <h3>Técnico de sistemas</h3>
+            <p class="org">Scientia Systems, Alcalá de Guadaíra · Prácticas de ASIR</p>
+            <ul>
+              <li>Automatización de procesos internos de la empresa.</li>
+              <li>Mantenimiento preventivo y correctivo de equipos.</li>
+              <li>Gestión y mantenimiento de redes corporativas.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="job">
+          <div class="when">Mar. 2025 – Jun. 2025</div>
+          <div>
+            <h3>Técnico de redes</h3>
+            <p class="org">Grupo Reifs, Alcalá de Guadaíra · Prácticas de grado medio</p>
+            <ul>
+              <li>Gestión y optimización de la infraestructura tecnológica.</li>
+              <li>Implementación y organización del sistema de redes.</li>
+              <li>Actualización de hardware y soporte técnico.</li>
+              <li>Resolución de incidencias en dispositivos corporativos.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="extras">
+        <div>
+          <h3>Certificaciones</h3>
+          <ul>
+            <li><b>Certificado básico en Linux</b><small>Cisco Networking Academy · nov.–dic. 2023 · nota 10</small></li>
+            <li><b>CCNA</b><small>Cisco Networking Academy · Introduction to Networks, Switching, Routing and Wireless Essentials, Enterprise Networking, Security and Automation</small></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Idiomas</h3>
+          <ul>
+            <li><b>Español</b><small>Nativo</small></li>
+            <li><b>Inglés</b><small>B1</small></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Fuera de clase</h3>
+          <ul>
+            <li><b>Montaje de PCs</b></li>
+            <li><b>Redes domésticas y virtualización</b></li>
+            <li><b>Soporte técnico y creación con IA</b></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="busco">
+      <div class="seek">
+        <div class="sec-head" style="margin:0">
+          <div class="eyebrow">Qué busco</div>
+          <h2>Un equipo donde aprender de los que ya saben</h2>
+          <p>Estoy abierto a presencial en Sevilla y alrededores, a híbrido y a remoto.</p>
+        </div>
+        <ul class="roles">
+          <li>Administrador de sistemas <span>Junior</span></li>
+          <li>Técnico de redes <span>Junior</span></li>
+          <li>Soporte IT <span>Nivel 1–2</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contacto" style="border-top:0; padding-bottom:0">
+      <div class="contact">
+        <div class="eyebrow" style="color:color-mix(in srgb, var(--bg) 70%, transparent)">Contacto</div>
+        <h2>¿Hablamos?</h2>
+        <p>Si tu equipo busca a alguien con ganas, base sólida y buen trato con los usuarios, escríbeme. Respondo por LinkedIn.</p>
+        <div class="actions" style="margin:0">
+          <a class="btn" href="https://www.linkedin.com/in/javier-s%C3%A1nchez-gonz%C3%A1lez-114a35443/" target="_blank" rel="noopener">Abrir mi LinkedIn <span aria-hidden="true">→</span></a>
+        </div>
+        <span class="url">linkedin.com/in/javier-sánchez-gonzález-114a35443</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Javier Sánchez González</span>
+    <span>Alcalá de Guadaíra · Sevilla</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  /* Puertos del panel */
+  var ports = document.getElementById('ports');
+  var on = [0,1,2,4,5,7,8,10,12,13,15,16,18,21,22];
+  var blink = { 2: 1, 8: 1, 15: 1, 21: 1 };
+  var warn = { 11: 1 };
+  for (var i = 0; i < 24; i++) {
+    var p = document.createElement('div');
+    p.className = 'port' + (on.indexOf(i) > -1 ? ' on' : '') + (blink[i] ? ' blink' : '') + (warn[i] ? ' warn blink' : '');
+    if (blink[i]) p.style.animationDelay = (i % 5) * 0.3 + 's';
+    ports.appendChild(p);
+  }
+
+  /* Laboratorio */
+  var NS = 'http://www.w3.org/2000/svg';
+  var data = {
+    cisco: { title: 'Redes Cisco', tags: ['Packet Tracer', 'Cisco IOS', 'Routers', 'Switches'],
+      text: 'Diseño y configuro redes Cisco en Packet Tracer: routers, switches y direccionamiento, siempre desde la línea de comandos de IOS.' },
+    win: { title: 'Windows Server y Active Directory', tags: ['Windows Server', 'Active Directory', 'Dominio'],
+      text: 'Es el controlador del dominio. Aquí gestiono usuarios, grupos y equipos, y es la pieza con la que el resto del laboratorio se autentica.' },
+    deb: { title: 'Servidor Debian', tags: ['Debian', 'SSSD', 'Terminal'],
+      text: 'Administro Debian desde terminal: servicios, usuarios y paquetes. Está integrado en el dominio de Active Directory con SSSD, así que los usuarios de Windows inician sesión también en Linux.' },
+    cli: { title: 'Equipo cliente', tags: ['Usuario final', 'Pruebas'],
+      text: 'Pruebo cada servicio desde el lado del usuario, que es el que importa. Si no funciona aquí, no está terminado.' },
+    sql: { title: 'Bases de datos', tags: ['MySQL', 'Consultas'],
+      text: 'Creo bases de datos y escribo consultas en MySQL para los servicios que monto en el servidor.' },
+    scr: { title: 'Scripts', tags: ['Bash', 'Python', 'Automatización'],
+      text: 'Automatizo con Bash y Python las tareas que se repiten: altas de usuarios, copias, comprobaciones y pequeños informes.' },
+    virt: { title: 'Virtualización', tags: ['Proxmox', 'VirtualBox'],
+      text: 'Todo el laboratorio corre en máquinas virtuales. Uso VirtualBox en local y Proxmox como servidor de virtualización.' }
+  };
+  var nodes = [
+    { id: 'cisco', k: 'router', cx: 320, cy: 44, w: 160, h: 50, t1: 'Router Cisco' },
+    { id: 'cisco', k: 'switch', cx: 320, cy: 138, w: 160, h: 50, t1: 'Switch Cisco' },
+    { id: 'win', cx: 104, cy: 300, w: 158, h: 62, t1: 'Windows Server', t2: 'Active Directory' },
+    { id: 'deb', cx: 320, cy: 300, w: 158, h: 62, t1: 'Debian', t2: 'Servidor Linux' },
+    { id: 'cli', cx: 536, cy: 300, w: 158, h: 62, t1: 'Cliente', t2: 'Equipo del dominio' },
+    { id: 'sql', cx: 248, cy: 392, w: 118, h: 42, t1: 'MySQL' },
+    { id: 'scr', cx: 392, cy: 392, w: 128, h: 42, t1: 'Bash · Python' }
+  ];
+  var svg = document.getElementById('map');
+  function el(name, attrs, parent) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  el('rect', { class: 'zone', x: 16, y: 196, width: 608, height: 252, rx: 10 }, svg);
+  var zl = el('text', { class: 'zone-label', x: 34, y: 436 }, svg);
+  zl.textContent = 'Proxmox · VirtualBox';
+  [
+    'M320 68 V 113',
+    'M320 162 V 270',
+    'M320 162 V 180 H 104 V 269',
+    'M320 162 V 180 H 536 V 269',
+    'M320 331 V 352 H 248 V 371',
+    'M320 331 V 352 H 392 V 371'
+  ].forEach(function (d) { el('path', { class: 'wire', d: d }, svg); });
+  el('path', { class: 'wire sssd', d: 'M183 300 H 241' }, svg);
+  var tag = el('text', { class: 'tag', x: 212, y: 286 }, svg);
+  tag.textContent = 'SSSD';
+
+  var byEl = {};
+  function makeNode(n) {
+    var g = el('g', { class: 'node', tabindex: 0, role: 'button', 'aria-label': n.t1 + (n.t2 ? ', ' + n.t2 : '') }, svg);
+    el('rect', { class: 'box', x: n.cx - n.w / 2, y: n.cy - n.h / 2, width: n.w, height: n.h, rx: 6 }, g);
+    el('circle', { cx: n.cx - n.w / 2 + 14, cy: n.cy - n.h / 2 + 14, r: 4.5 }, g);
+    var t1 = el('text', { class: 't1', x: n.cx + 6, y: n.t2 ? n.cy - 2 : n.cy + 6.5, 'text-anchor': 'middle' }, g);
+    t1.textContent = n.t1;
+    if (n.t2) {
+      var t2 = el('text', { class: 't2', x: n.cx + 6, y: n.cy + 19, 'text-anchor': 'middle' }, g);
+      t2.textContent = n.t2;
+    }
+    g.addEventListener('click', function () { select(n.id, g); });
+    g.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(n.id, g); }
+    });
+    return g;
+  }
+  var all = nodes.map(makeNode);
+  /* Zona de virtualización como botón */
+  var vg = el('g', { class: 'node', tabindex: 0, role: 'button', 'aria-label': 'Virtualización, Proxmox y VirtualBox' }, svg);
+  el('rect', { class: 'hit', x: 24, y: 414, width: 190, height: 30 }, vg);
+  vg.addEventListener('click', function () { select('virt', null); });
+  vg.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select('virt', null); }
+  });
+
+  var detail = document.getElementById('detail');
+  function select(id, g) {
+    all.forEach(function (n, i) { n.classList.toggle('on', nodes[i].id === id); });
+    var d = data[id];
+    detail.innerHTML = '';
+    var eb = document.createElement('div'); eb.className = 'eyebrow'; eb.textContent = 'Equipo seleccionado';
+    var h = document.createElement('h3'); h.textContent = d.title;
+    var p = document.createElement('p'); p.textContent = d.text;
+    var c = document.createElement('div'); c.className = 'chips';
+    d.tags.forEach(function (t) { var s = document.createElement('span'); s.textContent = t; c.appendChild(s); });
+    [eb, h, p, c].forEach(function (x) { detail.appendChild(x); });
+  }
+  select('deb', null);
+})();
+</script>
+</body>
+</html>
