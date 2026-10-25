@@ -168,6 +168,22 @@ section { padding-block: 72px; border-top: 2px solid var(--ink); }
 .detail .chips span { font-family: var(--f-mono); font-size: 13px; padding: 4px 10px; border: 1px solid color-mix(in srgb, var(--bg) 40%, transparent); border-radius: 99px; }
 .hint { font-family: var(--f-mono); font-size: 13px; color: var(--muted); margin-top: 14px; }
 
+/* Proyectos */
+.project { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 36px 64px; padding-top: 36px; border-top: 1px solid var(--line); }
+.project-meta { display: grid; gap: 18px; align-content: start; }
+.project .kind { font-family: var(--f-mono); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--cable); }
+.project h3 { font-size: clamp(34px, 4.6vw, 54px); font-stretch: 118%; font-weight: 900; letter-spacing: -.015em; line-height: .98; }
+.project-meta > p:not(.kind):not(.release) { color: var(--muted); font-size: 18px; max-width: 30em; }
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li { font-family: var(--f-mono); font-size: 13px; padding: 4px 11px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); }
+.project .actions { margin-top: 6px; }
+.project .release { font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
+.points { list-style: none; margin: 0; padding: 0; display: grid; }
+.points li { padding-block: 18px; border-bottom: 1px solid var(--line); font-size: 16.5px; line-height: 1.55; }
+.points li:first-child { padding-top: 0; }
+.points li:last-child { border-bottom: 0; }
+.points b { display: block; font-family: var(--f-display); font-stretch: 105%; font-weight: 700; font-size: 19px; margin-bottom: 4px; }
+
 /* Stack */
 .stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0; border-top: 1px solid var(--line); }
 .stack > div { padding: 22px 22px 26px 0; border-bottom: 1px solid var(--line); }
@@ -216,7 +232,7 @@ section { padding-block: 72px; border-top: 2px solid var(--ink); }
 footer { padding-top: 28px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
 
 @media (max-width: 860px) {
-  .hero, .about, .lab, .seek { grid-template-columns: minmax(0, 1fr); }
+  .hero, .about, .lab, .seek, .project { grid-template-columns: minmax(0, 1fr); }
   .path { grid-template-columns: minmax(0, 1fr); gap: 34px; }
   .path::before { left: 11px; right: auto; top: 0; bottom: 0; width: 4px; height: auto; }
   .step { padding: 0 0 0 52px; }
@@ -244,6 +260,7 @@ footer { padding-top: 28px; display: flex; justify-content: space-between; gap: 
     <nav class="nav" aria-label="Secciones">
       <a href="#sobre-mi">Sobre mí</a>
       <a href="#laboratorio">Laboratorio</a>
+      <a href="#proyectos">Proyectos</a>
       <a href="#stack">Herramientas</a>
       <a href="#trayectoria">Trayectoria</a>
       <a href="#experiencia">Experiencia</a>
@@ -304,6 +321,36 @@ footer { padding-top: 28px; display: flex; justify-content: space-between; gap: 
         </div>
         <div class="detail" id="detail" aria-live="polite"></div>
       </div>
+    </section>
+
+    <section id="proyectos">
+      <div class="sec-head">
+        <div class="eyebrow">Proyectos</div>
+        <h2>Lo que he construido</h2>
+        <p>Código real, con versiones publicadas y pruebas automáticas. Todo el código está en mi GitHub.</p>
+      </div>
+      <article class="project">
+        <div class="project-meta">
+          <p class="kind">App Android · Kotlin</p>
+          <h3>Actividades Moodle</h3>
+          <p>Aplicación que reúne en el móvil las actividades del Moodle de un centro educativo: qué está pendiente, qué se ha entregado y qué no, agrupado por plazo.</p>
+          <ul class="chips" aria-label="Tecnologías">
+            <li>Kotlin</li><li>Android</li><li>Moodle Web Services</li><li>Supabase</li><li>PostgreSQL</li><li>TypeScript</li><li>Firebase Cloud Messaging</li><li>GitHub Actions</li>
+          </ul>
+          <div class="actions">
+            <a class="btn" href="https://github.com/MURY237/Moddle-centros-actividades-" target="_blank" rel="noopener">Ver el código <span aria-hidden="true">→</span></a>
+            <a class="btn ghost" href="https://github.com/MURY237/Moddle-centros-actividades-/releases" target="_blank" rel="noopener">Versiones</a>
+          </div>
+          <p class="release">Última versión: v2.4.1 · octubre de 2026</p>
+        </div>
+        <ul class="points">
+          <li><b>Clasifica y avisa.</b> Separa las tareas por estado y plazo, muestra la nota de las corregidas y abre los enunciados y adjuntos sin entrar en Moodle. Avisa con la app cerrada de entregas próximas, actividades nuevas y notas publicadas.</li>
+          <li><b>Acceso sin exponer la contraseña.</b> En los centros con inicio de sesión único la contraseña no pasa por la app. El token se guarda cifrado con el almacén de claves de Android, la copia de seguridad del sistema está desactivada y la conexión siempre es HTTPS.</li>
+          <li><b>Varias fuentes de datos.</b> Usa la API oficial de Moodle, lee las faltas de asistencia de Séneca desde un navegador incrustado y también integra NetAcad.</li>
+          <li><b>Grupos con chat y exámenes.</b> Funciona sobre Supabase, con una función en el servidor que envía los avisos al instante por Firebase Cloud Messaging.</li>
+          <li><b>Calidad y entrega.</b> Tiene pruebas unitarias y se compila en GitHub Actions. Cada versión se publica como APK, desde la 2.1 hasta la 2.4.1.</li>
+        </ul>
+      </article>
     </section>
 
     <section id="stack">
@@ -475,11 +522,11 @@ footer { padding-top: 28px; display: flex; justify-content: space-between; gap: 
   var nodes = [
     { id: 'cisco', k: 'router', cx: 320, cy: 44, w: 160, h: 50, t1: 'Router Cisco' },
     { id: 'cisco', k: 'switch', cx: 320, cy: 138, w: 160, h: 50, t1: 'Switch Cisco' },
-    { id: 'win', cx: 104, cy: 300, w: 158, h: 62, t1: 'Windows Server', t2: 'Active Directory' },
+    { id: 'win', cx: 106, cy: 300, w: 172, h: 62, t1: 'Windows Server', t2: 'Active Directory' },
     { id: 'deb', cx: 320, cy: 300, w: 158, h: 62, t1: 'Debian', t2: 'Servidor Linux' },
     { id: 'cli', cx: 536, cy: 300, w: 158, h: 62, t1: 'Cliente', t2: 'Equipo del dominio' },
-    { id: 'sql', cx: 248, cy: 392, w: 118, h: 42, t1: 'MySQL' },
-    { id: 'scr', cx: 392, cy: 392, w: 128, h: 42, t1: 'Bash · Python' }
+    { id: 'sql', cx: 236, cy: 392, w: 118, h: 42, t1: 'MySQL' },
+    { id: 'scr', cx: 404, cy: 392, w: 150, h: 42, t1: 'Bash · Python' }
   ];
   var svg = document.getElementById('map');
   function el(name, attrs, parent) {
@@ -494,13 +541,13 @@ footer { padding-top: 28px; display: flex; justify-content: space-between; gap: 
   [
     'M320 68 V 113',
     'M320 162 V 270',
-    'M320 162 V 180 H 104 V 269',
+    'M320 162 V 180 H 106 V 269',
     'M320 162 V 180 H 536 V 269',
-    'M320 331 V 352 H 248 V 371',
-    'M320 331 V 352 H 392 V 371'
+    'M320 331 V 352 H 236 V 371',
+    'M320 331 V 352 H 404 V 371'
   ].forEach(function (d) { el('path', { class: 'wire', d: d }, svg); });
-  el('path', { class: 'wire sssd', d: 'M183 300 H 241' }, svg);
-  var tag = el('text', { class: 'tag', x: 212, y: 286 }, svg);
+  el('path', { class: 'wire sssd', d: 'M194 300 H 241' }, svg);
+  var tag = el('text', { class: 'tag', x: 218, y: 286 }, svg);
   tag.textContent = 'SSSD';
 
   var byEl = {};
